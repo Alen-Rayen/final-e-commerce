@@ -30,30 +30,18 @@ module.exports = {
     },
 
     buscar: function (req,res) {
-        let busqueda = req.query.busqueda;
+        let buscar = req.query.buscar;
+
         db.Producto.findAll({
-            where:
-                {
-                    [op.or]: [
-                            {
-                                nombre: {
-                                    [op.like]: `%${busqueda}%`
-                                }
-                            },
-                            {
-                                marca: {
-                                [op.like]: `%${busqueda}%`
-
-                                }
-                            }
-                   ]
-
-                }
-            
-        })
-        .then(function (resultados) {
-            res.render('resultadoBusqueda', { title: busqueda , resultados: resultados});
-        })
+        where: {
+            nombre: {
+                [op.or]: `${buscar}`
+            }
+        }
+    })
+    .then(function(resultados) {
+        res.render('resultadoBusqueda', { title: buscar, resultados })
+    })
     },
 
     agregarComentario: function (req,res) {
@@ -88,16 +76,15 @@ module.exports = {
         db.Producto.create({
             nombre: req.body.nombre,
             marca: req.body.marca,
+            img_url: req.body.imagen,
             precio: req.body.precio,
             categoria_id: req.body.categoria,
-            img_url: req.body.imagen
         })
-        .then(function (resultado) {
-            res.redirect('/productos/detalle/'+ resultado.id)
+        .then(function(resultado) {
+            res.redirect('/productos/detalle/' + resultado.id)
         })
-
+        .catch(error => console.log(error))
     },
-
     misProductos: function (req, res) {
         if (req.session.usuarioLogueado == undefined) {
             res.redirect("/");

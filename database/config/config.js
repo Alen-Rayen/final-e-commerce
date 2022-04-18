@@ -5,7 +5,7 @@ module.exports= {
     "database": "e-commerce-prog2",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false,
+    "operatorsAliases": 0,
     "port" : 3306
   },
   "test": {

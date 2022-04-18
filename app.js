@@ -11,6 +11,7 @@ var productosRouter = require('./routes/productos');
 var usuarioRouter = require('./routes/usuario');
 
 var session = require('express-session');
+const { toUnicode } = require('punycode');
 
 var app = express();
 
@@ -26,7 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use(session({ secret: "Cualquiercosa!!!" }));
+app.use(session({ secret: "Cualquiercosa!!!",
+  saveUninitialized: true,
+  resave: false
+}));
 
 app.use(function (req, res, next) {
   res.locals = {
